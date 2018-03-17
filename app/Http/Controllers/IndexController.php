@@ -3,14 +3,19 @@
 namespace Kino\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Kino\Service\CURLService;
+
+include_once __DIR__.'\..\..\..\public\blacked\htmldom\simple_html_dom.php';
 
 class IndexController extends SiteController
 {
+    protected $cURL = FALSE;
 
-    public function __construct()
+    public function __construct(CURLService $cURL)
     {
         parent::__construct();
 
+        $this->cURL = $cURL->curl('http://od.kinoodessa.com/');
         $this->template = env('THEME') . '.index';
     }
     /**
@@ -21,6 +26,12 @@ class IndexController extends SiteController
     public function index()
     {
         //Список
+
+        $dom = str_get_html($this->cURL);
+        $kino = $dom->find('.poster');
+        /*dd($kino);*/
+        $this->vars = array_add($this->vars, 'curl', $kino);
+
         return $this->renderOutput();
     }
 

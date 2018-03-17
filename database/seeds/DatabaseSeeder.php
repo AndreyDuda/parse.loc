@@ -12,5 +12,12 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         // $this->call(UsersTableSeeder::class);
+        DB::table('site')->insert([
+            [
+                'name' => 'Родина',
+                'url'  => 'vkino.ua',
+                'city' => '0'
+            ]
+        ]);
     }
 }
